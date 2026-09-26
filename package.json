@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A full-stack, responsive, and modern Job Portal web application built specifically for **fresh college graduates, early-career engineers, and campus recruiters**.",
   "main": "index.js",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
     "build": "cd frontend && npm run build",
     "start": "npm run start --prefix backend",
