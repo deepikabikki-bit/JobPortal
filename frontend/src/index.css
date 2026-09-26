@@ -1,0 +1,178 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-light: #CAD2C5;
+  --color-primary: #84A98C;
+  --color-secondary: #52796F;
+  --color-dark: #354F52;
+  --color-darkest: #2F3E46;
+}
+
+@layer base {
+  body {
+    background-color: #F4F7F5;
+    color: var(--color-dark);
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-darkest);
+  }
+
+  a {
+    color: var(--color-secondary);
+  }
+
+  ::selection {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+  }
+}
+
+/* Custom scrollbars matching theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #E8EFEA;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-secondary);
+}
+
+/* Glassmorphism surfaces styled to theme */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(82, 121, 111, 0.2);
+}
+
+.glass-dark {
+  background: rgba(47, 62, 70, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(132, 169, 140, 0.2);
+}
+
+/* Theme cohesive gradients without unrelated colors */
+.gradient-brand {
+  background: linear-gradient(135deg, #2F3E46 0%, #354F52 50%, #52796F 100%);
+}
+
+.gradient-brand-subtle {
+  background: linear-gradient(135deg, rgba(82, 121, 111, 0.12) 0%, rgba(132, 169, 140, 0.1) 100%);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #2F3E46 0%, #354F52 50%, #52796F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-shine {
+  background: linear-gradient(90deg, #2F3E46 0%, #52796F 25%, #84A98C 50%, #52796F 75%, #2F3E46 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  animation: shimmer 5s linear infinite;
+}
+
+/* Theme Button Utilities */
+.btn-primary {
+  background-color: var(--color-dark);
+  color: #ffffff;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-primary:hover {
+  background-color: var(--color-secondary);
+}
+
+.btn-secondary {
+  background-color: var(--color-primary);
+  color: var(--color-darkest);
+  font-weight: 600;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-secondary:hover {
+  background-color: var(--color-secondary);
+  color: #ffffff;
+}
+
+/* Card hover lift effect with theme primary/secondary glow */
+.card-hover-lift {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+}
+
+.card-hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px -10px rgba(53, 79, 82, 0.15), 0 8px 10px -5px rgba(53, 79, 82, 0.06);
+  border-color: var(--color-primary);
+}
+
+/* Pulse dot animation */
+.pulse-dot {
+  position: relative;
+}
+
+.pulse-dot::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 9999px;
+  background-color: inherit;
+  opacity: 0.75;
+  animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping-slow {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Shimmer shine across element */
+.badge-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.badge-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg);
+  animation: shine 4s infinite linear;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(30deg); }
+  25% { transform: translateX(100%) rotate(30deg); }
+  100% { transform: translateX(100%) rotate(30deg); }
+}
+
+/* Pause marquee on hover */
+.pause-marquee:hover {
+  animation-play-state: paused;
+}
