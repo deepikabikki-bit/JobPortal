@@ -12,6 +12,8 @@ import jobRoutes from './routes/jobRoutes.js';
 import applicationRoutes from './routes/applicationRoutes.js';
 import companyRoutes from './routes/companyRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import Job from './models/Job.js';
+import { seedData } from './seed.js';
 
 // Resolve __dirname in ES module
 const __filename = fileURLToPath(import.meta.url);
@@ -52,6 +54,27 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', message: 'Job Portal API is running smoothly' });
+});
+
+// Seed endpoint for initial cloud database setup
+app.get('/api/seed', async (req, res) => {
+  try {
+    const jobCount = await Job.countDocuments();
+    if (jobCount > 0 && req.query.force !== 'true') {
+      return res.status(200).json({
+        success: true,
+        message: `Database already has ${jobCount} jobs. Pass ?force=true to wipe and re-seed.`,
+        count: jobCount
+      });
+    }
+    await seedData(false);
+    res.status(200).json({
+      success: true,
+      message: 'Database successfully seeded with demo jobs, companies, and users!'
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
 });
 
 // API Routes

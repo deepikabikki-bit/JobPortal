@@ -7,9 +7,11 @@ import Application from './models/Application.js';
 
 dotenv.config();
 
-const seedData = async () => {
+export const seedData = async (shouldExit = true) => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobportal_freshers');
+    if (mongoose.connection.readyState !== 1) {
+      await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/jobportal');
+    }
     console.log('🌱 Connected to MongoDB for seeding...');
 
     // Clear existing data
@@ -432,11 +434,21 @@ const seedData = async () => {
     console.log('   - 6 Fresher Job Listings (Full-time & Internships)');
     console.log('   - 2 Applications with status tracking');
 
-    process.exit(0);
+    if (shouldExit) {
+      process.exit(0);
+    }
+    return { success: true, message: 'Database successfully seeded' };
   } catch (error) {
     console.error('❌ Error seeding database:', error);
-    process.exit(1);
+    if (shouldExit) {
+      process.exit(1);
+    }
+    throw error;
   }
 };
 
-seedData();
+if (process.argv[1] && process.argv[1].endsWith('seed.js')) {
+  seedData(true);
+}
+
+export default seedData;

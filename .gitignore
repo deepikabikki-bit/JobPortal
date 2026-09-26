@@ -15,6 +15,7 @@ build/
 backend/.env
 backend/.env.*
 !backend/.env.example
+!frontend/.env.production
 
 # Uploads & Temporary files
 uploads/*
